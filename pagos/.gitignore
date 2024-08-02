@@ -1,0 +1,45 @@
+# Dependencias de Node
+node_modules/
+
+# Archivos de entorno
+.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Directorios de cobertura de pruebas
+coverage/
+
+# Archivos de configuración de la carpeta de trabajo de la aplicación
+.DS_Store
+
+# Directorios de construcción
+dist/
+build/
+
+# Archivos específicos del sistema operativo
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+._*
+
+# Archivos temporales
+*.swp
+*.swo
+
+# Archivos de configuración del editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Docker archivos
+Dockerfile
+
+# Otros
+npm-debug.log
