@@ -38,8 +38,6 @@ Desktop.ini
 *.sublime-project
 *.sublime-workspace
 
-# Docker archivos
-Dockerfile
 
 # Otros
 npm-debug.log
