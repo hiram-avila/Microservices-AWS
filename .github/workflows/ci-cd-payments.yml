@@ -14,7 +14,7 @@ jobs:
 
     env:
       AWS_REGION: us-east-1
-      ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+      ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
       ECR_REPOSITORY_PAYMENTS: payments
       SERVICE_NAME_PAYMENTS: payments-service
       CLUSTER_NAME: your-ecs-cluster-name
