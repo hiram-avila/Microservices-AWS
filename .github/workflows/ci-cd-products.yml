@@ -14,7 +14,7 @@ jobs:
 
     env:
       AWS_REGION: us-east-1
-      ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+      ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
       ECR_REPOSITORY_PRODUCTS: products
       SERVICE_NAME_PRODUCTS: products-service
       CLUSTER_NAME: your-ecs-cluster-name
@@ -28,19 +28,19 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Amazon ECR
         id: login-ecr
         run: |
-          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
+          aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.ECR_REGISTRY }}
 
       - name: Build, tag, and push Docker image
         run: |
-          docker build -t ${{ secrets.ECR_REPOSITORY_PRODUCTS }}:latest ./products
-          docker tag ${{ secrets.ECR_REPOSITORY_PRODUCTS }}:latest ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY_PRODUCTS }}:latest
-          docker push ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY_PRODUCTS }}:latest
+          docker build -t ${{ env.ECR_REPOSITORY_PRODUCTS }}:latest ./products
+          docker tag ${{ env.ECR_REPOSITORY_PRODUCTS }}:latest ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY_PRODUCTS }}:latest
+          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY_PRODUCTS }}:latest
 
       - name: Update ECS service
         run: |
-          aws ecs update-service --cluster ${{ secrets.CLUSTER_NAME }} --service ${{ secrets.SERVICE_NAME_PRODUCTS }} --force-new-deployment
+          aws ecs update-service --cluster ${{ env.CLUSTER_NAME }} --service ${{ env.SERVICE_NAME_PRODUCTS }} --force-new-deployment
