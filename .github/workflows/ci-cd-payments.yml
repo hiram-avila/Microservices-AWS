@@ -14,7 +14,7 @@ jobs:
 
     env:
       AWS_REGION: us-east-1
-      ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+      ECR_REGISTRY_PAYMENTS: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
       ECR_REPOSITORY_PAYMENTS: payments
       SERVICE_NAME_PAYMENTS: payments
       CLUSTER_NAME: microservices
@@ -33,16 +33,14 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         run: |
-          aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.ECR_REGISTRY }}
+          aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.ECR_REGISTRY_PAYMENTS }}
 
       - name: Build, tag, and push Docker image
         run: |
           docker build -t ${{ env.ECR_REPOSITORY_PAYMENTS }}:latest ./payments
-          docker tag ${{ env.ECR_REPOSITORY_PAYMENTS }}:latest ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY_PAYMENTS }}:latest
-          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY_PAYMENTS }}:latest
+          docker tag ${{ env.ECR_REPOSITORY_PAYMENTS }}:latest ${{ env.ECR_REGISTRY_PAYMENTS }}/${{ env.ECR_REPOSITORY_PAYMENTS }}:latest
+          docker push ${{ env.ECR_REGISTRY_PAYMENTS }}/${{ env.ECR_REPOSITORY_PAYMENTS }}:latest
 
-          
       - name: Update ECS service
         run: |
-          aws ecs update-service --cluster ${{ env.CLUSTER_NAME }} --service ${{ env.SERVICE_NAME_PAYMENTS}} --force-new-deployment
-
+          aws ecs update-service --cluster ${{ env.CLUSTER_NAME }} --service ${{ env.SERVICE_NAME_PAYMENTS }} --force-new-deployment
