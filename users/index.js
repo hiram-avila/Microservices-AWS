@@ -4,7 +4,7 @@ const port = 3000;
 
 // Ruta de ejemplo
 app.get('/', (req, res) => {
-    res.send('users');
+    res.send('user, si se hace el cambio');
 });
 
 // Iniciar el servidor
