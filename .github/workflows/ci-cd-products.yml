@@ -41,6 +41,8 @@ jobs:
           docker tag ${{ env.ECR_REPOSITORY_PRODUCTS }}:latest ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY_PRODUCTS }}:latest
           docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY_PRODUCTS }}:latest
 
+          
       - name: Update ECS service
         run: |
           aws ecs update-service --cluster ${{ env.CLUSTER_NAME }} --service ${{ env.SERVICE_NAME_PRODUCTS }} --force-new-deployment
+
