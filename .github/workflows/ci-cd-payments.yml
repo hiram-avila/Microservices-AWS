@@ -1,27 +1,43 @@
-name: Test ECR Login
+name: CI/CD Pipeline for Payments
 
 on:
   push:
     branches:
       - main
-   
-
+  
 jobs:
-  test-login:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
+    env:
+      AWS_REGION: us-east-1
+      ECR_REGISTRY_PAYMENTS: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+      ECR_REPOSITORY_PAYMENTS: payments
+      SERVICE_NAME_PAYMENTS: payments
+      CLUSTER_NAME: microservices
+
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Amazon ECR
+        id: login-ecr
         run: |
-          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 458230424773.dkr.ecr.us-east-1.amazonaws.com
+          aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.ECR_REGISTRY_PAYMENTS }}
 
-      - name: List ECR Repositories
+      - name: Build, tag, and push Docker image
         run: |
-          aws ecr describe-repositories --region us-east-1
+          docker build -t ${{ env.ECR_REPOSITORY_PAYMENTS }}:latest ./payments
+          docker tag ${{ env.ECR_REPOSITORY_PAYMENTS }}:latest ${{ env.ECR_REGISTRY_PAYMENTS }}/${{ env.ECR_REPOSITORY_PAYMENTS }}:latest
+          docker push ${{ env.ECR_REGISTRY_PAYMENTS }}/${{ env.ECR_REPOSITORY_PAYMENTS }}:latest
+
+      - name: Update ECS service
+        run: |
+          aws ecs update-service --cluster ${{ env.CLUSTER_NAME }} --service ${{ env.SERVICE_NAME_PAYMENTS }} --force-new-deployment
