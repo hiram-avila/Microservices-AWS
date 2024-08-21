@@ -82,7 +82,6 @@ Este proyecto es una aplicación basada en microservicios desplegada en AWS, uti
 1. **AWS Fargate**: Crear un cluster ECS y configurar tareas para cada microservicio.
 2. **Docker en Fargate**: Configurar los servicios en Fargate para ejecutar los contenedores Docker.
 3. **API Gateway**: Configurar Amazon API Gateway para enrutar las solicitudes a los microservicios correctos.
-4. **CloudFront y S3**: Desplegar la aplicación frontend en S3 y usar CloudFront para distribución global.
 
 ## Uso
 
