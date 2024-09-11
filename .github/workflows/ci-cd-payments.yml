@@ -2,30 +2,6 @@ name: CI/CD Pipeline for Payments
 
 on:
   push:
-    branches:
-      - main
-      - master
-  
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-
-    env:
-      AWS_REGION: us-east-1
-      ECR_REGISTRY_PAYMENTS: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
-      ECR_REPOSITORY_PAYMENTS: payments
-      SERVICE_NAME_PAYMENTS: payments
-      CLUSTER_NAME: microservices
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Amazon ECR
