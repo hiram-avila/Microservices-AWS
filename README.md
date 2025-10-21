@@ -12,15 +12,13 @@ Este proyecto es una aplicación basada en microservicios desplegada en AWS, uti
 
 ## Arquitectura
 
-![image](https://github.com/user-attachments/assets/498a28a6-fb35-466f-bf4c-ae00b94a9f81)
+<img width="1065" height="514" alt="image" src="https://github.com/user-attachments/assets/2da3dadc-f2ea-4619-8f10-a5be87786ea8" />
+
 
 
 - **Amazon API Gateway**: Para gestionar y exponer las API REST.
-- **AWS Fargate**: Para ejecutar los contenedores Docker de los microservicios sin necesidad de gestionar servidores.
 - **Docker**: Para contenerizar los microservicios, asegurando un entorno consistente en desarrollo y producción.
 - **Amazon ECS**: Para orquestar la ejecución de contenedores en la nube.
-- **Amazon S3**: Para almacenar recursos estáticos y archivos generados por la aplicación.
-- **Amazon CloudFront**: CDN para servir contenido estático de manera rápida y segura a nivel global.
 - **CI/CD**: Integración y despliegue continuo utilizando GitHub Actions.
 
 ## Repositorio Frontend
