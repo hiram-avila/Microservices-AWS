@@ -12,7 +12,7 @@ Este proyecto es una aplicación basada en microservicios desplegada en AWS, uti
 
 ## Arquitectura
 
-<img width="1065" height="514" alt="image" src="https://github.com/user-attachments/assets/2da3dadc-f2ea-4619-8f10-a5be87786ea8" />
+<img width="1037" height="498" alt="image" src="https://github.com/user-attachments/assets/f0217779-75dc-400f-a6c6-aa6eb682154d" />
 
 
 
